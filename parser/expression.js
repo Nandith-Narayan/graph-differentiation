@@ -2,6 +2,15 @@
 //
 // https://peggyjs.org/
 
+
+    function binaryOp(op, left, right){
+        return {
+            type: op,
+            left: left,
+            right: right
+        };
+    }
+
 function peg$subclass(child, parent) {
   function C() { this.constructor = child; }
   C.prototype = parent.prototype;
@@ -188,8 +197,8 @@ function peg$parse(input, options) {
   var peg$e4 = peg$otherExpectation("simple number");
   var peg$e5 = peg$classExpectation([["0", "9"]], false, false);
 
-  var peg$f0 = function(left, right) { return left + right; };
-  var peg$f1 = function(left, right) { return left * right; };
+  var peg$f0 = function(left, right) { return binaryOp("add", left, right); };
+  var peg$f1 = function(left, right) { return binaryOp("multiply", left, right); };
   var peg$f2 = function(additive) { return additive; };
   var peg$f3 = function(digits) { return parseInt(digits.join(""), 10); };
   var peg$currPos = 0;

@@ -1,17 +1,29 @@
 <script setup>
-import {parse} from '../../parser/expression.js'
-import { ref } from 'vue'
-const raw_input = ref("x^2 + 4")
+  import { parse } from '../../parser/expression.js'
+  import { ref, watch } from 'vue'
+  const raw_input = ref("x^2 + 4")
+  const input_latex = ref("")
+  console.log(parse("1*3+1"))
+  // eslint-disable-next-line no-undef
+  input_latex.value = katex.renderToString("\\color{white}"+raw_input.value, {
+      throwOnError: false
+  });
 
-console.log(parse("1*3+1"))
-
+  watch(raw_input, async (new_value) => {
+    // eslint-disable-next-line no-undef
+    input_latex.value = katex.renderToString("\\color{white}"+new_value, {
+      throwOnError: false
+    });
+  });
 </script>
 
 <template>
   <div id="input-container">
     <label for="raw_input">
-    <input id="raw_input" type="text" :value="raw_input"/>
+    <input id="raw_input" type="text" v-model="raw_input"/>
   </label>
+  </div>
+  <div class="latex-container" v-html="input_latex">
   </div>
 </template>
 
@@ -37,6 +49,12 @@ console.log(parse("1*3+1"))
   #raw_input:focus{
     color: var(--fg-color2);
     outline: none;
+  }
+  .latex-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: x-large;
   }
 
 </style>

@@ -12,19 +12,35 @@ start
   = expression
 
 expression
-    = additive
+    = add
 
-additive
-    = left:multiplicative "+" right:additive { return binaryOp("add", left, right); }
-    / multiplicative
+add
+    = left:subtract "+" right:add { return binaryOp("add", left, right); }
+    / subtract
 
-multiplicative
-    = left:primary "*" right:multiplicative { return binaryOp("multiply", left, right); }
+subtract
+    = left:multiply "-" right:subtract { return binaryOp("sub", left, right); }
+    / multiply
+
+multiply
+    = left:divide "*" right:multiply { return binaryOp("multiply", left, right); }
+    / divide
+
+divide
+    = left:power "/" right:divide { return binaryOp("divide", left, right); }
+    / power
+
+power
+    = left:primary "^" right:power { return binaryOp("power", left, right); }
     / primary
 
+
 primary
+    = number
+    / "(" add:add ")" { return add; }
+
+number
     = integer
-    / "(" additive:additive ")" { return additive; }
 
 integer "simple number"
     = digits:[0-9]+ { return parseInt(digits.join(""), 10); }

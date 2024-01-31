@@ -1,6 +1,10 @@
 <script setup>
+import {parse} from '../../parser/expression.js'
 import { ref } from 'vue'
 const raw_input = ref("x^2 + 4")
+
+console.log(parse("1*3+1"))
+
 </script>
 
 <template>

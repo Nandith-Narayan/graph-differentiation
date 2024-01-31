@@ -19,12 +19,16 @@ const raw_input = ref("x^2 + 4")
   }
   label{
     padding: 5em;
+    display: block;
+    /*border-width: 1px;
+    border-style: solid;*/ 
   }
   #raw_input{
     background-color: transparent;
     border-color: transparent;
     color: var(--fg-color1);
     font-size: xx-large;
+    text-align: center;
   }
   #raw_input:focus{
     color: var(--fg-color2);

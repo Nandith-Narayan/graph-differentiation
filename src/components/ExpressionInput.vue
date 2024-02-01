@@ -1,19 +1,26 @@
 <script setup>
   import { parse } from '../../parser/expression.js'
+  import {treeToLatex} from '../treeFunctions.js'
   import { ref, watch } from 'vue'
-  const raw_input = ref("x^2 + 4")
+  const raw_input = ref("8^2 + 4")
   const input_latex = ref("")
-  console.log(parse("1*3+1"))
-  // eslint-disable-next-line no-undef
-  input_latex.value = katex.renderToString("\\color{white}"+raw_input.value, {
-      throwOnError: false
-  });
-
-  watch(raw_input, async (new_value) => {
+  try {
+    const root_node = parse(raw_input.value.replaceAll(' ', ''));
     // eslint-disable-next-line no-undef
-    input_latex.value = katex.renderToString("\\color{white}"+new_value, {
-      throwOnError: false
+    input_latex.value = katex.renderToString("\\color{white}"+treeToLatex(root_node), {
+        throwOnError: false
     });
+  } catch (error) { /* empty */ }
+  
+  
+  watch(raw_input, async (new_value) => {
+    try {
+      const root_node = parse(new_value.replaceAll(' ', ''));
+      // eslint-disable-next-line no-undef
+      input_latex.value = katex.renderToString("\\color{white}"+treeToLatex(root_node), {
+          throwOnError: false
+      });
+    } catch (error) { /* empty */ }
   });
 </script>
 
@@ -45,6 +52,7 @@
     color: var(--fg-color1);
     font-size: xx-large;
     text-align: center;
+    width: 100vw;
   }
   #raw_input:focus{
     color: var(--fg-color2);

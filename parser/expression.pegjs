@@ -37,10 +37,14 @@ power
 
 primary
     = number
-    / "(" add:add ")" { return add; }
+    / constant
+    / "(" expression:expression ")" { return expression; }
 
 number
     = integer
 
 integer "simple number"
-    = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+    = digits:[0-9]+ { return {type: "number", value:parseInt(digits.join(""), 10)}; }
+
+constant
+    = letter:[a-z] { return {type: "letter", value:letter}; }

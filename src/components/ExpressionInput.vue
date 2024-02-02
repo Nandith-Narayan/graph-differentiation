@@ -1,6 +1,6 @@
 <script setup>
   import { parse } from '../../parser/expression.js'
-  import { treeToLatex, computeDerivative } from '../treeFunctions.js'
+  import { treeToLatex, computeDerivative, simplifyTree } from '../treeFunctions.js'
   import TreeDisplay from './TreeDisplay.vue';
   import { ref, watch } from 'vue'
 
@@ -17,7 +17,7 @@
     input_latex.value = katex.renderToString("\\color{white}\\frac{d}{dx}("+treeToLatex(root_node.value)+")", {
         throwOnError: false
     });
-    derivative_node.value = computeDerivative(root_node.value);
+    derivative_node.value = simplifyTree(computeDerivative(root_node.value));
   } catch (error) { /* empty */ }
   
   
@@ -28,7 +28,7 @@
       input_latex.value = katex.renderToString("\\color{white}\\frac{d}{dx}("+treeToLatex(root_node.value)+")", {
           throwOnError: false
       });
-      derivative_node.value = computeDerivative(root_node.value);
+      derivative_node.value = simplifyTree(computeDerivative(root_node.value));
     } catch (error) { /* empty */ }
   });
 </script>

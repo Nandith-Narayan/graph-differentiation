@@ -63,7 +63,7 @@
 
   function drawNode(node, level, id){
     if(!node_data.value[id]){
-      let x = 200;
+      let x = 250;
       let y = 50 + TREE_NODE_Y_OFFSET*level
       let j = id;
       for(let i=level;j > 0; j=Math.floor(j/2)){

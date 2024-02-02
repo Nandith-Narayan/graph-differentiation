@@ -1,13 +1,18 @@
 <script setup>
   import { parse } from '../../parser/expression.js'
   import {treeToLatex} from '../treeFunctions.js'
+  import TreeDisplay from './TreeDisplay.vue';
   import { ref, watch } from 'vue'
-  const raw_input = ref("8^2 + 4")
+
+
+
+  const raw_input = ref("8^2 + 4 + 8")
   const input_latex = ref("")
+  const root_node = ref(null)
   try {
-    const root_node = parse(raw_input.value.replaceAll(' ', ''));
+    root_node.value = parse(raw_input.value.replaceAll(' ', '').toLowerCase());
     // eslint-disable-next-line no-undef
-    input_latex.value = katex.renderToString("\\color{white}"+treeToLatex(root_node), {
+    input_latex.value = katex.renderToString("\\color{white}\\frac{d}{dx}("+treeToLatex(root_node.value)+")", {
         throwOnError: false
     });
   } catch (error) { /* empty */ }
@@ -15,9 +20,9 @@
   
   watch(raw_input, async (new_value) => {
     try {
-      const root_node = parse(new_value.replaceAll(' ', ''));
+      root_node.value = parse(new_value.replaceAll(' ', '').toLowerCase());
       // eslint-disable-next-line no-undef
-      input_latex.value = katex.renderToString("\\color{white}"+treeToLatex(root_node), {
+      input_latex.value = katex.renderToString("\\color{white}\\frac{d}{dx}("+treeToLatex(root_node.value)+")", {
           throwOnError: false
       });
     } catch (error) { /* empty */ }
@@ -26,12 +31,13 @@
 
 <template>
   <div id="input-container">
-    <label for="raw_input">
-    <input id="raw_input" type="text" v-model="raw_input"/>
+    <label for="raw-input">
+    <input id="raw-input" type="text" v-model="raw_input"/>
   </label>
   </div>
   <div class="latex-container" v-html="input_latex">
   </div>
+  <TreeDisplay :tree="root_node"/>
 </template>
 
 <style scoped>
@@ -46,15 +52,16 @@
     /*border-width: 1px;
     border-style: solid;*/ 
   }
-  #raw_input{
+  #raw-input{
     background-color: transparent;
     border-color: transparent;
     color: var(--fg-color1);
     font-size: xx-large;
     text-align: center;
     width: 100vw;
+    text-transform: lowercase;
   }
-  #raw_input:focus{
+  #raw-input:focus{
     color: var(--fg-color2);
     outline: none;
   }

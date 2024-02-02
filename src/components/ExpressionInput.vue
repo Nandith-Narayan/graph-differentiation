@@ -37,7 +37,8 @@
   </div>
   <div class="latex-container" v-html="input_latex">
   </div>
-  <TreeDisplay :tree="root_node"/>
+  <TreeDisplay :tree="root_node" name="input-function-graph"/>
+  <TreeDisplay :tree="root_node" name="output-function-graph"/>
 </template>
 
 <style scoped>

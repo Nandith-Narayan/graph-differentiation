@@ -48,5 +48,6 @@ integer "simple number"
 
 constant
     = 'e' { return {type: "constant", value:"e"}}
+    / 'pi' { return {type: "constant", value:"pi"}}
     / letter:[a-z] { return {type: "letter", value:letter}; }
     

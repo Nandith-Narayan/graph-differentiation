@@ -1,6 +1,6 @@
 <script setup>
   import { onMounted, ref } from 'vue';
-  const props = defineProps(['tree'])
+  const props = defineProps(['tree', 'name'])
   
   let canvas = ref(null);
   let ctx = ref(null);
@@ -20,9 +20,10 @@
   let my = 0;
   let bt = performance.now();
   onMounted(() => {
-    canvas.value = document.getElementById("input-function-graph");
+    canvas.value = document.getElementById(props.name);
     ctx.value = canvas.value.getContext("2d");
     ctx.value.font = "bold 20px Courier New";
+    ctx.value.lineWidth = 2;
     draw()
   })
   function updateNodeData(dt) {
@@ -56,6 +57,8 @@
     ctx.value.beginPath();
     drawNode(props.tree, 0, 0)
     ctx.value.stroke();
+    ctx.value.fillText(Math.round(1000/dt)+"fps", 0, 20)
+
     window.requestAnimationFrame(draw);
   }
 
@@ -107,7 +110,11 @@
       if(node.value.toString().length > 2){
         ctx.value.fillText("c", node_data.value[id].x-5, node_data.value[id].y+6);
       }else{
-        ctx.value.fillText(node.value, node_data.value[id].x-(5*node.value.toString().length), node_data.value[id].y+6);
+        let value = node.value;
+        if(node.value ==="pi"){
+          value = "π";
+        }
+        ctx.value.fillText(value, node_data.value[id].x-(5*value.toString().length), node_data.value[id].y+6);
       }
     }else{
       ctx.value.fillText(NODE_TYPE_SYMBOL[node.type], node_data.value[id].x-6, node_data.value[id].y+5);
@@ -126,7 +133,7 @@
 
 <template>
   <div class="graph-container" >
-    <canvas id="input-function-graph" width="500" height="500" @mousemove="getMousePos"></canvas>
+    <canvas :id="props.name" width="500" height="500" @mousemove="getMousePos"></canvas>
   </div>
 </template>
 

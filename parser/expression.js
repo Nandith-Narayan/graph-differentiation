@@ -191,6 +191,7 @@ function peg$parse(input, options) {
   var peg$c5 = "(";
   var peg$c6 = ")";
   var peg$c7 = "e";
+  var peg$c8 = "pi";
 
   var peg$r0 = /^[0-9]/;
   var peg$r1 = /^[a-z]/;
@@ -205,7 +206,8 @@ function peg$parse(input, options) {
   var peg$e7 = peg$otherExpectation("simple number");
   var peg$e8 = peg$classExpectation([["0", "9"]], false, false);
   var peg$e9 = peg$literalExpectation("e", false);
-  var peg$e10 = peg$classExpectation([["a", "z"]], false, false);
+  var peg$e10 = peg$literalExpectation("pi", false);
+  var peg$e11 = peg$classExpectation([["a", "z"]], false, false);
 
   var peg$f0 = function(left, right) { return binaryOp("add", left, right); };
   var peg$f1 = function(left, right) { return binaryOp("sub", left, right); };
@@ -215,7 +217,8 @@ function peg$parse(input, options) {
   var peg$f5 = function(expression) { return expression; };
   var peg$f6 = function(digits) { return {type: "number", value:digits.join("")}; };
   var peg$f7 = function() { return {type: "constant", value:"e"}};
-  var peg$f8 = function(letter) { return {type: "letter", value:letter}; };
+  var peg$f8 = function() { return {type: "constant", value:"pi"}};
+  var peg$f9 = function(letter) { return {type: "letter", value:letter}; };
   var peg$currPos = 0;
   var peg$savedPos = 0;
   var peg$posDetailsCache = [{ line: 1, column: 1 }];
@@ -674,18 +677,33 @@ function peg$parse(input, options) {
     s0 = s1;
     if (s0 === peg$FAILED) {
       s0 = peg$currPos;
-      if (peg$r1.test(input.charAt(peg$currPos))) {
-        s1 = input.charAt(peg$currPos);
-        peg$currPos++;
+      if (input.substr(peg$currPos, 2) === peg$c8) {
+        s1 = peg$c8;
+        peg$currPos += 2;
       } else {
         s1 = peg$FAILED;
         if (peg$silentFails === 0) { peg$fail(peg$e10); }
       }
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
-        s1 = peg$f8(s1);
+        s1 = peg$f8();
       }
       s0 = s1;
+      if (s0 === peg$FAILED) {
+        s0 = peg$currPos;
+        if (peg$r1.test(input.charAt(peg$currPos))) {
+          s1 = input.charAt(peg$currPos);
+          peg$currPos++;
+        } else {
+          s1 = peg$FAILED;
+          if (peg$silentFails === 0) { peg$fail(peg$e11); }
+        }
+        if (s1 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s1 = peg$f9(s1);
+        }
+        s0 = s1;
+      }
     }
 
     return s0;

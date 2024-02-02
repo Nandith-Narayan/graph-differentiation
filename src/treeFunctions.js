@@ -2,31 +2,22 @@
 export function treeToLatex(node){
     
     let type = node.type;
-    
+    let left = node.left;
+    let right = node.right;
     
     if(type==='add'){
-        let left = node.left;
-        let right = node.right;
         return "{"+addParens(type, left.type, treeToLatex(left)) +"} + {"+ addParens(type, right.type, treeToLatex(right))+"}"; 
     }
     if(type==='sub'){
-        let left = node.left;
-        let right = node.right;
         return "{"+addParens(type, left.type, treeToLatex(left)) +"} - {"+ addParens(type, right.type, treeToLatex(right))+"}"; 
     }
     if(type==='multiply'){
-        let left = node.left;
-        let right = node.right;
         return "{"+addParens(type, left.type, treeToLatex(left)) +"} * {"+ addParens(type, right.type, treeToLatex(right))+"}";        
     }
     if(type==='divide'){
-        let left = node.left;
-        let right = node.right;
         return "\\frac{"+treeToLatex(left) +"}{"+ treeToLatex(right)+"}"; 
     }
     if(type==='power'){
-        let left = node.left;
-        let right = node.right;
         return "{"+addParens(type, left.type, treeToLatex(left)) +"} ^ {"+ treeToLatex(right)+"}"; 
     }
     if(type==='number'){

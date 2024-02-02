@@ -46,9 +46,8 @@
   }
 
   function draw() {
-    const dt = performance.now() - bt;
+    const dt = Math.min(performance.now() - bt, 5000.0);
     bt = performance.now();
-    console.log(dt);
     //try{
     updateNodeData(dt/1000.0);
     //}catch(e){console.log(e);}
@@ -138,6 +137,14 @@
 </template>
 
 <style scoped>
-
+  .graph-container{
+    padding: 0.25em;
+    border-radius: 1em;
+    background-color: var(--bg-color2);
+    border-style: solid;
+    border-color: #000000;
+    border-width: 3px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
 
 </style>

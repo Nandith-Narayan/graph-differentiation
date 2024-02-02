@@ -1,6 +1,6 @@
 <script setup>
   import { parse } from '../../parser/expression.js'
-  import {treeToLatex} from '../treeFunctions.js'
+  import { treeToLatex, computeDerivative } from '../treeFunctions.js'
   import TreeDisplay from './TreeDisplay.vue';
   import { ref, watch } from 'vue'
 
@@ -9,12 +9,15 @@
   const raw_input = ref("8^2 + 4 + 8")
   const input_latex = ref("")
   const root_node = ref(null)
+  const derivative_node = ref(null)
+
   try {
     root_node.value = parse(raw_input.value.replaceAll(' ', '').toLowerCase());
     // eslint-disable-next-line no-undef
     input_latex.value = katex.renderToString("\\color{white}\\frac{d}{dx}("+treeToLatex(root_node.value)+")", {
         throwOnError: false
     });
+    derivative_node.value = computeDerivative(root_node.value);
   } catch (error) { /* empty */ }
   
   
@@ -25,6 +28,7 @@
       input_latex.value = katex.renderToString("\\color{white}\\frac{d}{dx}("+treeToLatex(root_node.value)+")", {
           throwOnError: false
       });
+      derivative_node.value = computeDerivative(root_node.value);
     } catch (error) { /* empty */ }
   });
 </script>
@@ -37,8 +41,10 @@
   </div>
   <div class="latex-container" v-html="input_latex">
   </div>
+  <div id="display-container">
   <TreeDisplay :tree="root_node" name="input-function-graph"/>
-  <TreeDisplay :tree="root_node" name="output-function-graph"/>
+  <TreeDisplay :tree="derivative_node" name="output-function-graph"/>
+  </div>
 </template>
 
 <style scoped>
@@ -71,6 +77,14 @@
     flex-direction: row;
     justify-content: center;
     font-size: x-large;
+  }
+  #display-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: x-large;
+    gap: 0.25em;
+    margin-top: 1em;
   }
 
 </style>

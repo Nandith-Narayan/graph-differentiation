@@ -39,3 +39,24 @@ function addParens(parent, child, val){
     }
     return val;
 }
+
+function copyTree(node){
+    let type = node.type;
+    let left = node.left;
+    let right = node.right;
+    let new_node = {type:type}
+    if(left != undefined){
+        new_node.left = copyTree(left);
+    }
+    if(right != undefined){
+        new_node.right = copyTree(right);
+    }
+    if(node.value != undefined){
+        new_node.value = node.value;
+    }
+    return new_node;
+}
+
+export function computeDerivative(node){
+    return copyTree(node)
+}

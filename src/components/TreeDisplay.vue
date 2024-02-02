@@ -5,15 +5,15 @@
   let canvas = ref(null);
   let ctx = ref(null);
   const RADIUS = 10;
-  const TREE_NODE_X_OFFSET = 80;
-  const TREE_NODE_Y_OFFSET = 50;
+  const TREE_NODE_X_OFFSET = 100;
+  const TREE_NODE_Y_OFFSET = 40;
   const TREE_NODE_X_OFFSET_PER_LEVEL = 15;
   const CENTER_FORCE_COEFF = 0.5;
   const MOUSE_FORCE_COEFF = 50000.0;
   const DAMPING_COEFF = 0.99;
 
-  const NODE_TYPE_COLOR = {"multiply":"red", "add":"orange", "sub":"purple", "divide":"yellow", "power":"blue", "number":"green", "letter":"purple"}
-
+  const NODE_TYPE_COLOR = {"multiply":"red", "add":"darkorange", "sub":"orange", "divide":"yellow", "power":"blue", "number":"green", "constant":"green", "letter":"purple"}
+  const NODE_TYPE_SYMBOL = {"multiply":"*", "add":"+", "sub":"-", "divide":"÷", "power":"^"}
 
   let node_data = ref({});
   let mx = 0;
@@ -22,6 +22,7 @@
   onMounted(() => {
     canvas.value = document.getElementById("input-function-graph");
     ctx.value = canvas.value.getContext("2d");
+    ctx.value.font = "bold 20px Courier New";
     draw()
   })
   function updateNodeData(dt) {
@@ -101,6 +102,16 @@
     ctx.value.arc(node_data.value[id].x, node_data.value[id].y, RADIUS, 0, 2*Math.PI, false);
     ctx.value.fill();
     ctx.value.stroke();
+    ctx.value.fillStyle = "#000000"
+    if(node.type==="number" || node.type==="letter" || node.type==="constant"){
+      if(node.value.toString().length > 2){
+        ctx.value.fillText("c", node_data.value[id].x-5, node_data.value[id].y+6);
+      }else{
+        ctx.value.fillText(node.value, node_data.value[id].x-(5*node.value.toString().length), node_data.value[id].y+6);
+      }
+    }else{
+      ctx.value.fillText(NODE_TYPE_SYMBOL[node.type], node_data.value[id].x-6, node_data.value[id].y+5);
+    }
 
   }
 

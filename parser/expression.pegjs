@@ -44,7 +44,9 @@ number
     = integer
 
 integer "simple number"
-    = digits:[0-9]+ { return {type: "number", value:parseInt(digits.join(""), 10)}; }
+    = digits:[0-9]+ { return {type: "number", value:digits.join("")}; }
 
 constant
-    = letter:[a-z] { return {type: "letter", value:letter}; }
+    = 'e' { return {type: "constant", value:"e"}}
+    / letter:[a-z] { return {type: "letter", value:letter}; }
+    

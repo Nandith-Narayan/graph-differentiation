@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "homepage": "graph-differentiation",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --base=/graph-differentiation",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",

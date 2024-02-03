@@ -18,6 +18,8 @@
   let node_data = ref({});
   let mx = 0;
   let my = 0;
+  // eslint-disable-next-line no-unused-vars
+  let zoom = 1.0;
   let bt = performance.now();
   onMounted(() => {
     canvas.value = document.getElementById(props.name);
@@ -46,7 +48,7 @@
   }
 
   function draw() {
-    const dt = Math.min(performance.now() - bt, 5000.0);
+    const dt = Math.min(performance.now() - bt, 2000.0);
     bt = performance.now();
     //try{
     updateNodeData(dt/1000.0);
@@ -123,11 +125,19 @@
 
   function getMousePos(e) {
     const rect = canvas.value.getBoundingClientRect();
-
     mx = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.value.width,
     my = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.value.height
+  }
 
-}
+  /*function getWheelPos(e){
+    if(e.deltaY < 0){
+      zoom *= 0.95;
+    }else{
+      zoom *= 1.05;
+    }
+    ctx.value.scale(zoom,zoom);
+  }*/
+
 </script>
 
 <template>
@@ -143,8 +153,8 @@
     background-color: var(--bg-color2);
     border-style: solid;
     border-color: #000000;
-    border-width: 3px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    border-width: 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 
 </style>

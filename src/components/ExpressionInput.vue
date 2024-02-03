@@ -10,6 +10,8 @@
   const input_latex = ref("")
   const root_node = ref(null)
   const derivative_node = ref(null)
+  const output_latex = ref("")
+
 
   try {
     root_node.value = parse(raw_input.value.replaceAll(' ', '').toLowerCase());
@@ -18,6 +20,10 @@
         throwOnError: false
     });
     derivative_node.value = simplifyTree(computeDerivative(root_node.value));
+    // eslint-disable-next-line no-undef
+    output_latex.value = katex.renderToString("\\color{white}="+treeToLatex(derivative_node.value), {
+        throwOnError: false
+    });
   } catch (error) { /* empty */ }
   
   
@@ -29,6 +35,10 @@
           throwOnError: false
       });
       derivative_node.value = simplifyTree(computeDerivative(root_node.value));
+      // eslint-disable-next-line no-undef
+      output_latex.value = katex.renderToString("\\color{white}="+treeToLatex(derivative_node.value), {
+          throwOnError: false
+      });
     } catch (error) { /* empty */ }
   });
 </script>
@@ -36,11 +46,12 @@
 <template>
   <div id="input-container">
     <label for="raw-input">
-    <input id="raw-input" type="text" v-model="raw_input"/>
-  </label>
+      <input id="raw-input" type="text" v-model="raw_input"/>
+    </label>
   </div>
-  <div class="latex-container" v-html="input_latex">
-  </div>
+  <div class="latex-container" v-html="input_latex"></div>
+  <div class="latex-container" v-html="output_latex"></div>
+
   <div id="display-container">
   <TreeDisplay :tree="root_node" name="input-function-graph"/>
   <TreeDisplay :tree="derivative_node" name="output-function-graph"/>

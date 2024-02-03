@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "homepage": ".",
+  "homepage": "graph-differentiation",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

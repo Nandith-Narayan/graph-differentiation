@@ -2,9 +2,7 @@
   import { parse } from '../../parser/expression.js'
   import { treeToLatex, computeDerivative, simplifyTree } from '../treeFunctions.js'
   import TreeDisplay from './TreeDisplay.vue';
-  import { ref, watch } from 'vue'
-
-
+  import { ref, watch } from 'vue';
 
   const raw_input = ref("8^2 + 4 + 8")
   const input_latex = ref("")
